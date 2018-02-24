@@ -11794,7 +11794,7 @@ div#notebook {
       width: 100%;
       height: 100%;
       overflow: visible;
-      background: #fff url('./Moving%20line.gif') no-repeat center center;
+      background: #fff url('./assets/img/Moving%20line.gif') no-repeat center center;
   }
 
 </style>
@@ -11871,14 +11871,14 @@ div#notebook {
 <h3 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h3><p><a href="#top">Top</a></p>
 <p>Written Japanese uses a mixed-script system: <em>kanji</em>—<a href="http://www.ingentaconnect.com/content/jbp/wll/2011/00000014/00000001/art00004">morphographic</a> Chinese characters, which is to say: graphemes that mainly represent the morphemes used in word formation—and derived from these, there are two types of phonographic <em>kana</em>, which are simpler graphemes representing only the Japanese sound system’s moraic syllable (e.g., ‘<em>ka</em>’) foundation, used mostly for grammatical functions.</p>
 <p><p></p>
-<div align=center><img src="asahi_codh.jpg">
+<div align=center><img src="./assets/img/asahi_codh.jpg">
     <small><i>Figure 1: A text containing archaic handwritten Japanese, <a href="http://www.asahi.com/ajw/articles/AJ201612090010.html">via</a></i></small></div><p>Handwritten Japanese before the 19c standardizations of the Meiji era is characterized by myriad, idiosyncratic variations of <em>kanji</em> and <em>kana</em> (<em>hentaigana</em>), collectively called <em>kuzushiji</em>, and has thereby limited primary access to pre-modern corpora to the few who have attained the necessary literacy (Hashimoto, et al., <a href="http://digitalhumanities.org/dhq/vol/11/1/000281/000281.html">2017</a>).</p>
 <p>Given the value of the historical record, deciphering <em>kuzushiji</em> is a significant <a href="https://guides.library.upenn.edu/japanesedigitalresources/kuzushiji">enterprise</a>, enabled by scanning images of historical texts, with scholars painstakingly hand-labeling characters. A typical practice is training computational models to classify characters, trial-and-error supervised with expert labels acting as the ‘ground truth,’ for corrective feedback. Examples of applications for this topic range from <a href="http://www.asahi.com/ajw/articles/AJ201612090010.html">adapting Edo period recipes</a> to gathering <a href="http://www.kyoto-u.ac.jp/cutting-edge/continuum/page01.html">seismological</a> data to better predict earthquakes.</p>
 <p>Deep neural networks are state-of-the-art in image recognition, with multiple layers of interconnected ‘neurons’ leveraged to learn numeric representations of training data (e.g., a subset of character images extracted from a corpus, and their manually coded target labels), which can be generalized to evaluate new data (e.g., classifying a novel subset of images and targets).</p>
 <p>For image tasks, the standard architecture is the convolutional neural network (CNN). The key feature of its effectiveness is that a CNN retains the spatial relationships of the pixels comprising images, rather than flattening inputs at the onset.</p>
 <p><p></p>
 <div align=center>
-    <img src="convnet.jpg" width=625><br>
+    <img src="./assets/img/convnet.jpg" width=625><br>
     <small><i>Figure 2: A typical convolutional neural network, <a href="https://www.mathworks.com/discovery/convolutional-neural-network.html">via</a></i></small></div><p><a href="https://www.tensorflow.org/">TensorFlow</a> is a high-level library known for providing prefab functions executed over the abstraction of a computational graph. It is an accessible resource which allows diverse researchers to employ deep learning without attending to low-level details (e.g., convolutional operations).</p>
 <hr>
 
@@ -11918,7 +11918,7 @@ div#notebook {
 <h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p><a href="#top">Top</a></p>
 <p>Following a standard template, the architecture consists of two convolutional and subsampling layer pairs, followed by a pair of affine layers. Non-linearities for the convolutional layers use an explicitly defined function for leaky rectified linear units (LReLU): the leaky version of this transfer function (intended to prevent the problem of exponentially decreasing gradients) mitigates the issue of cell death in standard ReLU by allowing for a minimal gradient in the negative case, rather than thresholding at zero. The convolutions are downsampled with conventional max-pooling.</p>
 <p><p><div align=center>
-    <img src="tensorboard_graph_zoom.png" width=350><br>
+    <img src="./assets/img/tensorboard_graph_zoom.png" width=350><br>
     <small><i>Figure 3: Sample TensorBoard visualization</i></small></div></p>
 <p>Dropout (Srivastava, et al., <a href="https://dl.acm.org/citation.cfm?id=2670313">2014</a>) is applied to the first affine layer, also from scratch: dropout reduces neuronal co-adaptations by forcing cells to adapt to the more diverse ecologies created by randomly mutated subsets of a network, creating a robust combined model with more independent feature units.</p>
 <p>Finally, the readout layer outputs are sent directly to an explicit softmax function with negative log-likelihood loss, to obtain and evaluate a probability distribution for the appropriate class labels. This function is defined such that it scales the logits before normalization, to avoid underflow and overflow, per a best practice referenced by Goodfellow, et al. (<a href="http://www.deeplearningbook.org/contents/numerical.html">2016</a>) (+<a href="https://www.deeplearningbook.me/">ja</a>).</p>
@@ -11936,7 +11936,7 @@ div#notebook {
 <p><p></p>
 <div align=center>
 <small><i>Figure 4: Example of Neocognitron Architecture via <a href="http://dx.doi.org/10.4249/scholarpedia.1717">doi:10.4249/scholarpedia.1717</a></i></small><br>
-<img src="neocognitron.gif"></div><p>The ancestor of the modern convolutional neural network with its use of biologically inspired receptive fields is the Neocognitron (Fukushima, <a href="http://www.scholarpedia.org/article/Neocognitron">1980</a>). Recently, the Neocognitron was used in the recognition of <em>hentaigana</em> (Hayasaka, et al., <a href="https://www.jstage.jst.go.jp/article/toyotakosenkiyo/48/0/48_KJ00010158360/_article">2015</a>), before the authors implemented the task using a CNN (Hayasaka, et al., <a href="https://ipsj.ixsq.nii.ac.jp/ej/index.php?active_action=repository_view_main_item_detail&amp;page_id=13&amp;block_id=8&amp;item_id=176212&amp;item_no=1">2016</a>), and created an online <a href="http://vpac.toyota-ct.ac.jp/hayasaka/kuzushiji/">app</a>. The latter project appears to have used Python 2.7; a Matlab-based CNN has also been used for <em>hentaigana</em> (Agata, <a href="https://www.mathworks.com/matlabcentral/fileexchange/62682-cnn-for-old-japanese-character-classification">2017</a>), as well as a high-level Keras transfer of ResNet-50 (Hataya, <a href="https://github.com/moskomule/kuzushi-ji">2017</a>). Prior to this, a modular neural networks approach with <a href="http://www.springer.com/us/book/9783540679219">Self-Organizing Maps</a> was described (Horiuchi &amp; Kato, <a href="https://www.semanticscholar.org/paper/A-Study-on-Japanese-Historical-Character-Recogniti-Horiuchi-Kato/0046e8d07f344ae28dd5ea08fce1db7abc9855b2">2009</a>).</p>
+<img src="./assets/img/neocognitron.gif"></div><p>The ancestor of the modern convolutional neural network with its use of biologically inspired receptive fields is the Neocognitron (Fukushima, <a href="http://www.scholarpedia.org/article/Neocognitron">1980</a>). Recently, the Neocognitron was used in the recognition of <em>hentaigana</em> (Hayasaka, et al., <a href="https://www.jstage.jst.go.jp/article/toyotakosenkiyo/48/0/48_KJ00010158360/_article">2015</a>), before the authors implemented the task using a CNN (Hayasaka, et al., <a href="https://ipsj.ixsq.nii.ac.jp/ej/index.php?active_action=repository_view_main_item_detail&amp;page_id=13&amp;block_id=8&amp;item_id=176212&amp;item_no=1">2016</a>), and created an online <a href="http://vpac.toyota-ct.ac.jp/hayasaka/kuzushiji/">app</a>. The latter project appears to have used Python 2.7; a Matlab-based CNN has also been used for <em>hentaigana</em> (Agata, <a href="https://www.mathworks.com/matlabcentral/fileexchange/62682-cnn-for-old-japanese-character-classification">2017</a>), as well as a high-level Keras transfer of ResNet-50 (Hataya, <a href="https://github.com/moskomule/kuzushi-ji">2017</a>). Prior to this, a modular neural networks approach with <a href="http://www.springer.com/us/book/9783540679219">Self-Organizing Maps</a> was described (Horiuchi &amp; Kato, <a href="https://www.semanticscholar.org/paper/A-Study-on-Japanese-Historical-Character-Recogniti-Horiuchi-Kato/0046e8d07f344ae28dd5ea08fce1db7abc9855b2">2009</a>).</p>
 <hr>
 
 </div>
@@ -11950,7 +11950,7 @@ div#notebook {
 <p><p></p>
 <div align=center>
     <small><i>Figure 5: Data processing via <a href="http://codh.rois.ac.jp/">CODH</a></i></small><br>
-<img src="book_char.png" width=500></div><p>The primary references for this project were Michael Nielsen’s free online book, <a href="http://neuralnetworksanddeeplearning.com/"><em>Neural Networks &amp; Deep Learning</em></a> (+<a href="http://nnadl-ja.github.io/nnadl_site_ja/index.html">ja</a>) and the many notes and assignment code (Python/NumPy) for the online course, <a href="http://cs231n.github.io\convolutional-networks\">CS231N</a> (Andrej Karpathy, et al.), with additional references to general TensorFlow <a href="https://www.tensorflow.org/tutorials/mnist/pros/#deep-mnist-for-experts">tutorials</a> and documentation. More detailed references can be found in the various Jupyter Notebook markdown cells and code comments.</p>
+<img src="./assets/img/book_char.png" width=500></div><p>The primary references for this project were Michael Nielsen’s free online book, <a href="http://neuralnetworksanddeeplearning.com/"><em>Neural Networks &amp; Deep Learning</em></a> (+<a href="http://nnadl-ja.github.io/nnadl_site_ja/index.html">ja</a>) and the many notes and assignment code (Python/NumPy) for the online course, <a href="http://cs231n.github.io\convolutional-networks\">CS231N</a> (Andrej Karpathy, et al.), with additional references to general TensorFlow <a href="https://www.tensorflow.org/tutorials/mnist/pros/#deep-mnist-for-experts">tutorials</a> and documentation. More detailed references can be found in the various Jupyter Notebook markdown cells and code comments.</p>
 <p>Character data was procured from the open access sets provided by 人文学オープンデータ共同利用センター (Center for Open Data in the Humanities / <a href="http://codh.rois.ac.jp">CODH</a>).</p>
 <p>Specifically the respective fiction and poetry from:</p>
 <p><p></p>
@@ -12319,8 +12319,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<div align=center><img src="im2col.png" height=252 width=550>
-<img src="im2colmult_.png" height=252 width=550>
+<div align=center><img src="./assets/img/im2col.png" height=252 width=550>
+<img src="./assets/img/im2colmult_.png" height=252 width=550>
 <small><em>im2col & matmul(W_row, X_col) operation (result = num_kernels × num_patches), via <a href="https://petewarden.com/2015/04/20/why-gemm-is-at-the-heart-of-deep-learning/">Why GEMM is at the heart of deep learning</a></em></small></div>
 </div>
 </div>
@@ -12622,7 +12622,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="lrelud.png"></p>
+<p><img src="./assets/img/lrelud.png"></p>
 
 </div>
 </div>
@@ -12961,7 +12961,7 @@ div#notebook {
 <h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p><a href="#top">Top</a></p>
 <p><div align=center>
     <small><i>Figure 6: Training (Orange), Validation, & Testing Accuracies on 4000 examples from Ugetsu Monogatari  (60/20/20 split)</i></small>
-<img src="tvt_res.png" width=650></div></p>
+<img src="./assets/img/tvt_res.png" width=650></div></p>
 <p><p>
 As noted, this project was an educational exercise first, and a kind of pilot study second, using small sets for runs, to obtain rapid results for debugging (a work in progress). A simple summary would be that the scratch-built network appears to work well with small sets of the simpler, frequent <em>kana</em> (more specifically, <em>hentaigana</em>), and would require fine-tuning, redesign, and refactoring to broaden its expressive capacity and increase robustness.</p>
 
@@ -12975,7 +12975,7 @@ As noted, this project was an educational exercise first, and a kind of pilot st
 <h3 id="Discussion">Discussion<a class="anchor-link" href="#Discussion">&#182;</a></h3><p><a href="#top">Top</a></p>
 <p><div align=center>
     <small><i>Figure 7: A sample character’s activations for the first convolutional layer w/ 32 feature maps</i></small>
-<img src="l_acts_s.png" width=650></div></p>
+<img src="./assets/img/l_acts_s.png" width=650></div></p>
 <p><p>
 There is a wealth of research on the benefits of learning through productive, generative, meaningful tasks, and in that sense, this project was of great value. Learners tend to think they understand more than they do: “<a href="https://makeitstick.net/pdfs/ClassroomPracticeEffortlessLearningIsAdangerousIllusionNewsTES.pdf">illusions of mastery</a>” [PDF] that encourage them to passively engage with materials, and commonly it isn’t until they practice in a generative, productive rather than receptive way that they notice the gaps in their comprehension. Doing this in TensorFlow, rather than Octave or NumPy, for example, presented a fine opportunity to connect various types of comprehension (e.g., intuitive descriptions, mathematical formulae, and code at multiple levels of abstraction), a kind of “<a href="https://en.wikipedia.org/wiki/Elaborative_encoding">elaborative</a>” learning w/ “<a href="https://link.springer.com/article/10.1007%2Fs11251-012-9240-7">convergent cognition</a>.”</p>
 <p>On the other hand, it is quite impractical to re-invent the wheel, and in terms of the industry, familiarity with the standard use of TensorFlow and other libraries is ideal. At the same time, a happy medium can be found, pedagogically, with a progressive, piecewise design of such an activity; and in terms of practical use, it is worthwhile to cultivate a bottom-up perspective, an anodyne to the adverse effects of <a href="https://en.wikipedia.org/wiki/Blackboxing">blackboxing</a>—especially when integrating deep learning into sundry disciplines with varying conceptual models, problems, and data. The potential for creativity in the design of neural networks in the context of the Digital Humanities, is quite vast.</p>
@@ -12990,7 +12990,7 @@ There is a wealth of research on the benefits of learning through productive, ge
 <h3 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work">&#182;</a></h3><p><a href="#top">Top</a></p>
 <p><div align=center>
     <small><i>Figure 8: Model of human character recognition, via <a href="http://dx.doi.org/10.1080/17470218.2013.790910">doi:10.1080/17470218.2013.790910</a></i></small>
-<img src="miwab.png" width=500></div></p>
+<img src="./assets/img/miwab.png" width=500></div></p>
 <p><p>
 In the future, I would like to experiment in a similar fashion with the modern <a href="http://etlcdb.db.aist.go.jp/">ETL Character Database</a>, using Geoffrey Hinton’s <a href="https://www.youtube.com/watch?v=pPN8d0E3900">capsule</a> architecture—which I had encountered through one of his recorded talks prior to CNNs when I first began my studies in this area—now that new papers have been published to detail the work of researchers such as <a href="https://www.nytimes.com/2017/11/28/technology/artificial-intelligence-research-toronto.html">Sara Sabour</a>, and various <a href="https://medium.com/@pechyonkin/understanding-hintons-capsule-networks-part-i-intuition-b4b559d1159b">explainers</a> and code <a href="https://github.com/naturomics/CapsNet-Tensorflow">repositories</a> have been released.</p>
 <p>My own mental models of reading Japanese stem from research I had previously read from authors such as <a href="http://kojimiwa.com/publication.html">Koji Miwa</a> and <a href="http://www.sfs.uni-tuebingen.de/~hbaayen/index.html">Harald Baayen</a> (known for his grammatical work, as well). To fully explore the applications of such biological models to network design, integrating “<a href="http://bair.berkeley.edu/blog/2017/11/09/learn-to-attend-fovea/">attention</a>” and some notion of priority in layer-to-layer activations might be necessary, such that one might quantify the character-driven processing and submorphemic supplementation thereof.</p>
